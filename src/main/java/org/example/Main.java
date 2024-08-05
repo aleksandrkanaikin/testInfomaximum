@@ -23,7 +23,7 @@ public class Main {
         String[] validExtensions = {"csv", "json"};
 
         while (true) {
-            System.out.print("\nВведите путь к файлу или 'exit' для выхода: ");
+            System.out.print("\nEnter the file path or 'exit' to exit: ");
             String input = inData.nextLine();
 
             if (input.equalsIgnoreCase("exit")) {
@@ -34,12 +34,14 @@ public class Main {
                 ObjectRepository.clear();
                 if (fileFormat.equals("json")) {
                     jsonParse.jsonParser(input);
-                } else if (fileFormat.equals("csv")) {
+                }
+                else{
                     csvParse.csvParser(input);
                 }
                 statisticService.getStatistic();
-            } else {
-                System.out.println("Неверный формат файла!");
+            }
+            else {
+                System.out.println("Incorrect file format!");
             }
         }
         inData.close();

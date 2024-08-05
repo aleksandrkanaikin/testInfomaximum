@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 public class StatisticService {
 
     public void getStatistic() {
-        System.out.println("\nДубликаты объектов: ");
+        System.out.println("\nObject duplicates: ");
         getObjectDuplicates();
-        System.out.println("\nСуммарный вес объектов в каждой группе");
+        System.out.println("\nTotal weight of objects in each group");
         getTotalWeightInEachGroup();
-        System.out.println("\nМаксимальный и минимальный веса объектов в файле:");
+        System.out.println("\nMaximum and minimum weights of objects in the file:");
         getMinAndMaxWeightInFile();
     }
 
