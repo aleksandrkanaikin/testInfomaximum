@@ -17,13 +17,12 @@ public class JsonParseService {
         File jsonFile = new File(path);
 
         try (JsonParser parser = mapper.getFactory().createParser(jsonFile)) {
-            // Проверяем, что файл начинается с начала массива
             if (parser.nextToken() == JsonToken.START_ARRAY) {
-                // Читаем объекты один за другим до конца массива
                 while (parser.nextToken() != JsonToken.END_ARRAY) {
                     ObjectModel object = mapper.readValue(parser, ObjectModel.class);
                     statisticService.countMinAndMaxWeight(object);
                     statisticService.sumWeightInEachGroup(object);
+                    statisticService.objectsDuplicate(object);
                 }
             } else {
                 throw new IOException("JSON file does not start with an array");

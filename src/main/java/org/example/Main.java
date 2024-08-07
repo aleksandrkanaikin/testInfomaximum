@@ -25,6 +25,7 @@ public class Main {
         while (true) {
             System.out.print("\nEnter the file path or 'exit' to exit: ");
             String input = inData.nextLine();
+            ObjectRepository.clear();
 
             if (input.equalsIgnoreCase("exit")) {
                 break;
