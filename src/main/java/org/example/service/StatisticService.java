@@ -11,7 +11,7 @@ public class StatisticService {
 
     public void getStatistic() {
         System.out.println("\nObject duplicates: ");
-        getObjectDuplicates();
+        //getObjectDuplicates();
         System.out.println("\nTotal weight of objects in each group");
         getTotalWeightInEachGroup();
         System.out.println("\nMaximum and minimum weights of objects in the file:");
@@ -19,32 +19,43 @@ public class StatisticService {
     }
 
     private void getMinAndMaxWeightInFile() {
-        AtomicLong minWeight = new AtomicLong(Long.MAX_VALUE);
-        AtomicLong maxWeight = new AtomicLong(Long.MIN_VALUE);
 
-        ObjectRepository.objectsList.parallelStream().forEach(o -> {
-            long weight = o.getWeight();
-            minWeight.updateAndGet(value -> Math.min(value, weight));
-            maxWeight.updateAndGet(value -> Math.max(value, weight));
-        });
-
-        System.out.println("Min, Weight: " + minWeight.get());
-        System.out.println("Max, Weight: " + maxWeight.get());
+        System.out.println("Min, Weight: " + ObjectRepository.minWeight);
+        System.out.println("Max, Weight: " + ObjectRepository.maxWeight);
     }
 
     private void getTotalWeightInEachGroup() {
-        Map<String, Long> weightMap = ObjectRepository.objectsList.parallelStream()
-                .collect(Collectors.groupingBy(ObjectModel::getGroup, Collectors.summingLong(ObjectModel::getWeight)));
+        for(Map.Entry<String, Long> weightMap : ObjectRepository.sumWeight.entrySet()){
+            System.out.println("Group: " + weightMap.getKey() + ", Total weight: " + weightMap.getValue());
 
-        weightMap.forEach((key, value) -> System.out.println("Group: " + key + ", Total weight: " + value));
+        }
     }
 
-    private void getObjectDuplicates() {
-        Map<String, Long> countMap = ObjectRepository.objectsList.parallelStream()
-                .collect(Collectors.groupingBy(obj -> obj.getGroup() + "-" + obj.getType(), Collectors.counting()));
+//    private void getObjectDuplicates() {
+//        Map<String, Long> countMap = ObjectRepository.objectsList.parallelStream()
+//                .collect(Collectors.groupingBy(obj -> obj.getGroup() + "-" + obj.getType(), Collectors.counting()));
+//
+//        countMap.entrySet().stream()
+//                .filter(entry -> entry.getValue() > 1)
+//                .forEach(entry -> System.out.println("Group-Type: " + entry.getKey() + ", Count: " + entry.getValue()));
+//    }
 
-        countMap.entrySet().stream()
-                .filter(entry -> entry.getValue() > 1)
-                .forEach(entry -> System.out.println("Group-Type: " + entry.getKey() + ", Count: " + entry.getValue()));
+    public void countMinAndMaxWeight(ObjectModel object){
+        if(ObjectRepository.maxWeight < object.getWeight()){
+            ObjectRepository.maxWeight = object.getWeight();
+        }
+
+        if(ObjectRepository.minWeight > object.getWeight()){
+            ObjectRepository.minWeight = object.getWeight();
+        }
+    }
+    
+    public void sumWeightInEachGroup(ObjectModel object){
+        if(!ObjectRepository.sumWeight.containsKey(object.getGroup())){
+            ObjectRepository.sumWeight.put(object.getGroup(), object.getWeight());
+        } else if (ObjectRepository.sumWeight.containsKey(object.getGroup())) {
+            ObjectRepository.sumWeight.put(object.getGroup(),
+                    ObjectRepository.sumWeight.get(object.getGroup()) + object.getWeight());
+        }
     }
 }

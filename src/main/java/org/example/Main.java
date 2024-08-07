@@ -31,16 +31,13 @@ public class Main {
             }
 
             if (isValidFileFormat(input, validExtensions)) {
-                ObjectRepository.clear();
                 if (fileFormat.equals("json")) {
                     jsonParse.jsonParser(input);
-                }
-                else{
-                    csvParse.csvParser(input);
+                } else {
+                    csvParse.csvParse(input);
                 }
                 statisticService.getStatistic();
-            }
-            else {
+            } else {
                 System.out.println("Incorrect file format!");
             }
         }
