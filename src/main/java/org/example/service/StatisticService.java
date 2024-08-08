@@ -58,10 +58,15 @@ public class StatisticService {
     public void objectsDuplicate(ObjectModel object){
 
         String key = object.getGroup() + "-" + object.getType();
-        int count = 1;
+
         if(set.size() < 10000){
            if(!set.add(key)){
-               ObjectRepository.objectsDuplicate.put(key, count);
+               if(ObjectRepository.objectsDuplicate.containsKey(key)){
+                   ObjectRepository.objectsDuplicate.put(key, ObjectRepository.objectsDuplicate.get(key)+1);
+               }
+               else {
+               ObjectRepository.objectsDuplicate.put(key, 2);
+               }
            }
         }
         else {

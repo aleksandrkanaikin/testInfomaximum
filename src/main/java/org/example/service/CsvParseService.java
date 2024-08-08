@@ -3,7 +3,6 @@ package org.example.service;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.example.model.ObjectModel;
-import org.example.repository.ObjectRepository;
 
 import java.io.FileReader;
 import java.io.IOException;
