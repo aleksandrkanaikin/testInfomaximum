@@ -7,7 +7,6 @@ import java.math.BigInteger;
 import java.util.*;
 
 public class StatisticService {
-    private Set<String> set = new HashSet<>();
 
     public void getStatistic() {
         System.out.println("\nObject duplicates: ");
@@ -59,8 +58,8 @@ public class StatisticService {
 
         String key = object.getGroup() + "-" + object.getType();
 
-        if(set.size() < 10000){
-           if(!set.add(key)){
+        if(ObjectRepository.set.size() < 10000){
+           if(!ObjectRepository.set.add(key)){
                if(ObjectRepository.objectsDuplicate.containsKey(key)){
                    ObjectRepository.objectsDuplicate.put(key, ObjectRepository.objectsDuplicate.get(key)+1);
                }
